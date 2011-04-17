@@ -24,44 +24,50 @@
 ***************************************************************/
 
 /**
- * The posts controller for the Blog package
+ * The main controller to show items from a feed
  *
+ * @author Arno Schoon
+ * @author Christian Zenker <christian.zenker@599media.de>
  * @version $Id:$
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License, version 2
  */
-class Tx_Maxfeed_Controller_FeedController extends Tx_Extbase_MVC_Controller_ActionController {
+class Tx_T3orgT3blogrefviewer_Controller_FeedController extends Tx_Extbase_MVC_Controller_ActionController {
 
     /**
-     * @var array
-     */
-    protected $flexFormConfiguration;
-
-    /**
-     * Initializes the current action
+     * Show teasers from an rss feed
      *
-     * @return void
-     */
-    public function initializeAction() {
-        $cObjData = $this->request->getContentObjectData();
-        $this->flexFormConfiguration = Tx_Maxskel_Utility_FlexForm::convertFlexFormToArray($cObjData['pi_flexform']);
-    }
-
-    /**
-     * List action for this controller. Displays latest posts
-     *
+     * assigned to template:
+     * =====================
+     *  * feed - Tx_T3orgT3blogrefviewer_Domain_Model_Feed - a representation of the feed
+     *  * error - contains an error message if something went wrong when trying to create the feed object
+     *  
      * @return string
      */
-    public function showAction() {
-    	$this->view->assign('cObjData', $this->request->getContentObjectData());
-    	$this->view->assign('configuration', $this->flexFormConfiguration);
-    	$feedStr = t3lib_div::getUrl($this->flexFormConfiguration['feedUrl']);
-    	
-    	try{
-    		$sxe = new Tx_Maxfeed_SimpleXML_Element($feedStr, LIBXML_NOCDATA);
-    		//die(print_r($sxe,true));
-    		$this->view->assign('feed', $sxe);
-    	} catch(Exception $e){
-    		return $e->getMessage();
+    public function teaserAction() {
+    	try {
+	    	if(!$this->settings['feedUrl']) {
+	    		throw new InvalidArgumentException('feedUrl is not configured.');
+	    	}
+	    	$feedUrl = $this->settings['feedUrl'];
+	    	
+	    	$feedStr = t3lib_div::getUrl($feedUrl);
+	    	
+	    	if(empty($feedStr)) {
+	    		//if: empty return or false (=exception)
+	    		throw new RuntimeException(sprintf(
+	    			'The url "%s" could not be fetched.',
+	    			$feedUrl
+	    		));
+	    	}
+	    	
+	    	//throws errors on its own
+    		$feed = new Tx_T3orgT3blogrefviewer_Domain_Model_Feed($feedStr, LIBXML_NOCDATA);
+    		
+    		$this->view->assign('feed', $feed);
+	    	
+    	} catch (Exception $e) {
+    		t3lib_div::sysLog($e->getMessage(), 't3org_t3blogrefviewer', LOG_ERR);
+    		$this->view->assign('error', $e->getMessage());
     	}
     }
 

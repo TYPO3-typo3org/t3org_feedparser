@@ -12,39 +12,11 @@
 							<label>URL of the feed</label>
 							<config>
 								<type>input</type>
-								<size>48</size>
+								<size>255</size>
 								<eval>trim,required</eval>
 							</config>
 						</TCEforms>
 					</feedUrl>
-					<feedType>
-						<TCEforms>
-							<label>Feed Type</label>
-							<config>
-								<type>select</type>
-								<items type="array">
-									<numIndex index="0" type="array">
-										<numIndex index="0">WordPress (RSS)</numIndex>
-										<numIndex index="1">1</numIndex>
-									</numIndex>
-									<numIndex index="1" type="array">
-										<numIndex index="0">Twitter (RSS)</numIndex>
-										<numIndex index="1">2</numIndex>
-									</numIndex>
-								</items>
-							</config>
-						</TCEforms>
-					</feedType>
-					<feedCount>
-						<TCEforms>
-							<label>Items to show</label>
-							<config>
-								<type>input</type>
-								<eval>int,required,trim</eval>
-								<size>4</size>
-							</config>
-						</TCEforms>
-					</feedCount>
 				</el>
 			</ROOT>
 		</sDEF>
