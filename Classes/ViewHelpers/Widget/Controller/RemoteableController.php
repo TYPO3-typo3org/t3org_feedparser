@@ -30,30 +30,36 @@ class Tx_T3orgFeedparser_ViewHelpers_Widget_Controller_RemoteableController exte
 	 */
 
 	/**
-	 * @param string $containerId
+	 * the action to place (a usually empty) container to the 
+	 * template to be filled remotely
+	 * 
 	 * @return void
 	 */
 	public function indexAction() {
-		$key = $this->getHashFromArray($this->widgetConfiguration);
-		$this->getRegistry()->set(
-			'tx_'.$this->request->getControllerExtensionKey(),
-			$key,
-			$this->widgetConfiguration
-		);
+		$key = $this->getHashFromArray($content);
+		$this->writeRegistry($key, $this->widgetConfiguration);
 		$this->view->assign('remoteArguments', array('key' => $key));
 	}
 	
 	/**
+	 * the remote action called via AJAX
 	 * 
-	 * @param string $key
+	 * @param string $key a hashed key to fetch configuration from database
 	 */
 	public function remoteAction($key) {
-		$this->widgetConfiguration = $this->getRegistry()->get(
-			'tx_'.$this->request->getControllerExtensionKey(),
-			$key
-		);
 		
 		try {
+			// restore the configuration from the database
+			$this->widgetConfiguration = $this->readRegistry($key);
+			if($content = $this->readCache()) {
+				return $content;
+			}
+			
+			// check if the result was already cached and is still valid
+			if(empty($this->widgetConfiguration)) {
+				throw new RuntimeException('Could not find configuration for this key.');
+			}
+		
 	    	if(!$this->widgetConfiguration['feedUrl']) {
 	    		throw new InvalidArgumentException('feedUrl is not configured.');
 	    	}
@@ -68,6 +74,8 @@ class Tx_T3orgFeedparser_ViewHelpers_Widget_Controller_RemoteableController exte
 	    	
     		$this->view->assign('feed', $feed);
     		$this->view->assign('feedUrl', $feedUrl);
+    		
+    		return $this->writeCache($key);
 	    	
     	} catch (Exception $e) {
     		t3lib_div::sysLog($e->getMessage(), 't3org_feedparser', LOG_ERR);
@@ -75,13 +83,58 @@ class Tx_T3orgFeedparser_ViewHelpers_Widget_Controller_RemoteableController exte
     	}
 	}
 	
+	/**
+	 * the registry handling sys_register
+	 * @var t3lib_Registry
+	 */
 	protected $registry = null;
 	
+	/**
+	 * get the registry handling sys_register
+	 * @return t3lib_Registry
+	 */
 	protected function getRegistry() {
 		if(is_null($this->registry)) {
 			$this->registry = t3lib_div::makeInstance('t3lib_Registry');
 		}
 		return $this->registry;
+	}
+	
+	/**
+	 * read a value from the registry
+	 * @param string $key
+	 */
+	protected function readRegistry($key) {
+		return $this->getRegistry()->get(
+			'tx_'.$this->request->getControllerExtensionKey(),
+			$key
+		);
+	}
+	
+	/**
+	 * write a value to the registry
+	 * @param string $key
+	 * @param mixed $content
+	 */
+	protected function writeRegistry($key, $content) {
+		
+		if($content instanceof Tx_Fluid_Core_ViewHelper_Arguments) {
+			/* if this is an argument class -> make it a plain array
+			 * otherwise its not possible to add values later on (caching)
+			 */
+			$content = array(
+				'feedUrl' => $this->widgetConfiguration['feedUrl'],
+				'templatePathAndName' => $this->widgetConfiguration['templatePathAndName'],
+				'cacheTime' => $this->widgetConfiguration['cacheTime'],
+			);
+		}
+		
+		$this->getRegistry()->set(
+			'tx_'.$this->request->getControllerExtensionKey(),
+			$key,
+			$content
+		);
+		return $key;
 	}
 	
 	/**
@@ -95,6 +148,34 @@ class Tx_T3orgFeedparser_ViewHelpers_Widget_Controller_RemoteableController exte
 	protected function getHashFromArray($array) {
 		return md5(serialize($array));
 	}
+	
+	/**
+	 * read a page from cache
+	 * 
+	 * @return string|false
+	 */
+	protected function readCache() {
+		if(array_key_exists('cacheContent', $this->widgetConfiguration) && array_key_exists('cacheDiscardAt', $this->widgetConfiguration)) {
+			if(intval($this->widgetConfiguration['cacheDiscardAt']) >= time()) {
+				return $this->widgetConfiguration['cacheContent'];
+			} 
+		}
+		return false;
+	}
+	
+	/**
+	 * store a page to cache
+	 * @param string $key
+	 * @return the rendered content
+	 */
+	protected function writeCache($key) {
+		$renderContent = $this->view->render();
+		$this->widgetConfiguration['cacheContent'] = $renderContent;
+		$this->widgetConfiguration['cacheDiscardAt'] = time() + $this->widgetConfiguration['cacheTime'];
+		$this->writeRegistry($key, $this->widgetConfiguration);
+		return $renderContent;
+	}
+	
 }
 
 ?>

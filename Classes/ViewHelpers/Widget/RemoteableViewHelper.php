@@ -46,9 +46,10 @@ class Tx_T3orgFeedparser_ViewHelpers_Widget_RemoteableViewHelper extends Tx_Flui
 	/**
 	 * @param string $templatePathAndName
 	 * @param string $feedUrl
+	 * @param integer $cacheTime the max time in seconds the cache is valid
 	 * @return string
 	 */
-	public function render($templatePathAndName = '', $feedUrl = '') {
+	public function render($templatePathAndName = '', $feedUrl = '', $cacheTime=60) {
 		return $this->initiateSubRequest();
 	}
 }
