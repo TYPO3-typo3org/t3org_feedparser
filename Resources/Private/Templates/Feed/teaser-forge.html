@@ -1,15 +1,18 @@
-<!-- variables in the template: 
-	- error (string): set if an error occured (feed should be empty then)
-	- feed (object): an object representation of the feed 
--->
-<f:if condition="{error}">
-	<f:then>
-		<!-- the error message might be supressed - it's just here for testing --> 
-		Some error occured: {error}
-		<!-- In case forge.typo3.org is down, display something else. -->
-	</f:then>
-	<f:else>
-		<!-- get attributes this way: -->
-		{feed.entry.link.attribute-href}
-	</f:else>
-</f:if>
+{namespace feed=Tx_T3orgFeedparser_ViewHelpers}
+<feed:widget.remoteable>
+	<!-- variables in the template: 
+		- error (string): set if an error occured (feed should be empty then)
+		- feed (object): an object representation of the feed 
+	-->
+	<f:if condition="{error}">
+		<f:then>
+			<!-- the error message might be supressed - it's just here for testing --> 
+			Some error occured: {error}
+			<!-- In case forge.typo3.org is down, display something else. -->
+		</f:then>
+		<f:else>
+			<!-- get attributes this way: -->
+			{feed.entry.link.attribute-href}
+		</f:else>
+	</f:if>
+</feed:widget.remoteable>
