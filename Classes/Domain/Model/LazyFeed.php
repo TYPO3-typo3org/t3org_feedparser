@@ -37,7 +37,7 @@ class Tx_T3orgFeedparser_Domain_Model_LazyFeed {
 		if(is_null($this->object)) {
 			$this->initObject();
 		}
-		return call_user_method_array($methodName, $this->object, $arguments);
+		return call_user_func_array(array($this->object,$methodName), $arguments);
 	}
 	
 	/**
