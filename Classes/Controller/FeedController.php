@@ -54,7 +54,14 @@ class Tx_T3orgFeedparser_Controller_FeedController extends Tx_Extbase_MVC_Contro
 	    		$this->view->setTemplatePathAndFilename(t3lib_div::getFileAbsFileName($this->settings['templatePathAndName']));
 	    	}
 	    	
-	    	$feedStr = t3lib_div::getUrl($feedUrl);
+	    	$feedStr = t3lib_div::getUrl(
+	    		$feedUrl,
+	    		0,
+	    		/* forge.typo3.org will just refuse connection (403) if
+	    		 * the user agent is empty
+	    		 */ 
+	    		array('User-Agent: typo3.org/FeedParser')
+	    	);
 	    	
 	    	if(empty($feedStr)) {
 	    		//if: empty return or false (=exception)
@@ -70,7 +77,7 @@ class Tx_T3orgFeedparser_Controller_FeedController extends Tx_Extbase_MVC_Contro
     		$this->view->assign('feed', $feed);
 	    	
     	} catch (Exception $e) {
-    		t3lib_div::sysLog($e->getMessage(), 't3org_t3blogrefviewer', LOG_ERR);
+    		t3lib_div::sysLog($e->getMessage(), 't3org_feedparser', LOG_ERR);
     		$this->view->assign('error', $e->getMessage());
     	}
     }

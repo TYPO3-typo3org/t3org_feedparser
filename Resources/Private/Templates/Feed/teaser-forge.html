@@ -1,16 +1,15 @@
-<h4>Forge says "Hi"</h4>
+<!-- variables in the template: 
+	- error (string): set if an error occured (feed should be empty then)
+	- feed (object): an object representation of the feed 
+-->
 <f:if condition="{error}">
 	<f:then>
+		<!-- the error message might be supressed - it's just here for testing --> 
 		Some error occured: {error}
-		<!-- In case t3blog.com is down, display something else. -->
+		<!-- In case forge.typo3.org is down, display something else. -->
 	</f:then>
 	<f:else>
-		<h1>{feed.channel.title}</h1>
-		<f:for each="{feed.channel.item}" as="item" key="itt">
-			<h3>{item.title}</h3>
-			<f:if condition="{item.description}">
-				<p>{item.xmlns-content.encoded}</p>
-			</f:if>
-		</f:for>
+		<!-- get attributes this way: -->
+		{feed.entry.link.attribute-href}
 	</f:else>
 </f:if>

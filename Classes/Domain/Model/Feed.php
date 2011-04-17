@@ -95,7 +95,12 @@ class Tx_T3orgFeedparser_Domain_Model_Feed extends SimpleXMLElement {
 			
 			if(strncmp($propertyName, 'xmlns-', 6) === 0){
 				return $this->children(substr($propertyName, 6), true);
+			} elseif(strncmp($propertyName, 'attribute-', 10) === 0) {
+				$attributes = $this->attributes();
+				$attributeName = t3lib_div::underscoredToLowerCamelCase(substr($propertyName, 10));
+				return $attributes->$attributeName;
 			}
+			
 			return $this->$propertyName;
 		}
 	}

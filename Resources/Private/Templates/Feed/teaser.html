@@ -1,15 +1,1 @@
-<f:if condition="{error}">
-	<f:then>
-		Some error occured: {error}
-		<!-- In case t3blog.com is down, display something else. -->
-	</f:then>
-	<f:else>
-		<h1>{feed.channel.title}</h1>
-		<f:for each="{feed.channel.item}" as="item" key="itt">
-			<h3>{item.title}</h3>
-			<f:if condition="{item.description}">
-				<p>{item.xmlns-content.encoded}</p>
-			</f:if>
-		</f:for>
-	</f:else>
-</f:if>
+Please use a different template in the backend. :)
