@@ -44,11 +44,11 @@ class Tx_T3orgFeedparser_ViewHelpers_Widget_RemoteableViewHelper extends Tx_Flui
 	}
 
 	/**
-	 *
-	 * @param string $containerId
+	 * @param string $templatePathAndName
+	 * @param string $feedUrl
 	 * @return string
 	 */
-	public function render() {
+	public function render($templatePathAndName = '', $feedUrl = '') {
 		return $this->initiateSubRequest();
 	}
 }

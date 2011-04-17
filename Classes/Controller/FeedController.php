@@ -39,6 +39,7 @@ class Tx_T3orgFeedparser_Controller_FeedController extends Tx_Extbase_MVC_Contro
      * assigned to template:
      * =====================
      *  * feed - Tx_T3orgT3blogrefviewer_Domain_Model_Feed - a representation of the feed
+     *  * feedUrl - the feedUrl that should be fetched
      *  * error - contains an error message if something went wrong when trying to create the feed object
      *  
      * @return string
@@ -53,29 +54,20 @@ class Tx_T3orgFeedparser_Controller_FeedController extends Tx_Extbase_MVC_Contro
 	    	if(!empty($this->settings['templatePathAndName'])) {
 	    		$this->view->setTemplatePathAndFilename(t3lib_div::getFileAbsFileName($this->settings['templatePathAndName']));
 	    	}
-	    	
-	    	$feedStr = t3lib_div::getUrl(
-	    		$feedUrl,
-	    		0,
-	    		/* forge.typo3.org will just refuse connection (403) if
-	    		 * the user agent is empty
-	    		 */ 
-	    		array('User-Agent: typo3.org/FeedParser')
-	    	);
-	    	
-	    	if(empty($feedStr)) {
-	    		//if: empty return or false (=exception)
-	    		throw new RuntimeException(sprintf(
-	    			'The url "%s" could not be fetched.',
-	    			$feedUrl
-	    		));
-	    	}
-	    	
-	    	//throws errors on its own
-    		$feed = new Tx_T3orgFeedparser_Domain_Model_Feed($feedStr, LIBXML_NOCDATA);
     		
-    		$this->view->assign('feed', $feed);
+	    	/**
+	    	 * some lazy fetching feed
+	    	 * 
+	    	 * it just does its time-consuming work when it is actually needed
+	    	 * 
+	    	 * @var Tx_T3orgFeedparser_Domain_Model_LazyFeed
+	    	 */
+	    	$feed = new Tx_T3orgFeedparser_Domain_Model_LazyFeed();
+	    	$feed->setFeedUrl($feedUrl);
 	    	
+    		$this->view->assign('feed', $feed);
+	    	$this->view->assign('feedUrl', $feedUrl);
+    		
     	} catch (Exception $e) {
     		t3lib_div::sysLog($e->getMessage(), 't3org_feedparser', LOG_ERR);
     		$this->view->assign('error', $e->getMessage());
