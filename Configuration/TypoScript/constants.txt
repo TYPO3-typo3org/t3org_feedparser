@@ -1,0 +1,16 @@
+plugin.tx_maxfeed {
+    view {
+         # cat=plugin.tx_maxfeed/file; type=string; label=Path to template root (FE)
+        templateRootPath = EXT:maxfeed/Resources/Private/Templates/
+         # cat=plugin.tx_maxfeed/file; type=string; label=Path to template partials (FE)
+        partialRootPath = EXT:maxfeed/Resources/Private/Partials/
+         # cat=plugin.tx_maxfeed/file; type=string; label=Path to template layouts (FE)
+        layoutRootPath = EXT:maxfeed/Resources/Private/Layouts/
+    }
+    persistence {
+         # cat=plugin.tx_maxfeed//a; type=int+; label=Default storage PID
+        storagePid =
+    }
+    general{
+    }
+}

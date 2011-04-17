@@ -1,0 +1,93 @@
+lib.cropHTMLmaxfeed < lib.parseFunc
+lib.cropHTMLmaxfeed{
+	nonTypoTagStdWrap.stdWrap.cropHTML = 160
+	nonTypoTagStdWrap.wrap = |...
+}
+ 
+ page.includeCSS{
+	maxfeed-structure-style = EXT:maxfeed/Resources/Public/Style/Structure/feed.css
+	maxfeed-visual-style = EXT:maxfeed/Resources/Public/Style/Visual/feed.css
+}
+ 
+ # Plugin configuration
+plugin.tx_maxfeed {
+    settings {
+    }
+    persistence {
+        storagePid = {$plugin.tx_maxfeed.persistence.storagePid}
+    }
+    view {
+        templateRootPath = {$plugin.tx_maxfeed.view.templateRootPath}
+        partialRootPath = {$plugin.tx_maxfeed.view.partialRootPath}
+        layoutRootPath = {$plugin.tx_maxfeed.view.layoutRootPath}
+    }
+}
+
+/* 
+
+plugin.tx_maxfeed._CSS_DEFAULT_STYLE (
+	input.f3-form-error {
+		background-color:#FF9F9F;
+		border: 1px #FF0000 solid;
+	}
+	.m-contentelement-listtype-maxfeed_pi1 {
+		margin-bottom: 75px;
+	}	
+	.m-contentelement-listtype-maxfeed_pi1 table {
+		border-collapse:separate;
+		border-spacing:10px;
+	}
+
+	.m-contentelement-listtype-maxfeed_pi1 table th {
+		font-weight:bold;
+	}
+
+	.m-contentelement-listtype-maxfeed_pi1 table td {
+		vertical-align:top;
+	}
+	
+	.m-contentelement-listtype-maxfeed_pi1 .tweet {
+		display: block;
+		border: 1px solid #AAAAAA;
+		margin: 2px;
+		padding: 5px;
+		padding-bottom: 15px;
+		position: relative;
+		padding-bottom: 15px;
+	}
+	
+	.m-contentelement-listtype-maxfeed_pi1 .tweet.odd {
+		background-color: #EEEEEE;
+	}
+	.m-contentelement-listtype-maxfeed_pi1 .tweet.even {
+		background-color: #DDDDDD;	
+	}
+	.m-contentelement-listtype-maxfeed_pi1 .tweet .tweet_date {
+		position: absolute;
+		right: 5px;
+		bottom: 1px;
+		font-size: 8px;
+	}
+	.m-contentelement-listtype-maxfeed_pi1 .tweet .tweet_geo {
+		position: absolute;
+		left: 5px;
+		bottom: 1px;
+		font-size: 9px;
+		display: inline;
+	}		
+	
+	.m-contentelement-listtype-maxfeed_pi1 .tweet .tweet_content {
+	}
+	
+	.m-contentelement-listtype-maxfeed_pi1 .tweet .tweet_content .tweet_username {
+		font-weight: bold;
+		color: #65a1e5;
+	}
+	
+	.m-contentelement-listtype-maxfeed_pi1 .tweet .tweet_content .tweet_hashtag {
+		font-style:italic;
+		color: #26c6b1;
+	}
+) 
+
+*/
