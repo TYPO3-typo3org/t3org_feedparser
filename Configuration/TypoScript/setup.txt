@@ -1,4 +1,0 @@
-# Plugin configuration
-plugin.tx_t3orgt3blogrefviewer.settings {
-    feedUrl = http://t3blog.com
-}

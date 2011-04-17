@@ -4,7 +4,7 @@ if (!defined ('TYPO3_MODE')) die ('Access denied.');
 Tx_Extbase_Utility_Extension::registerPlugin(
     $_EXTKEY,// The extension name (in UpperCamelCase) or the extension key (in lower_underscore)
     'Pi1',                // A unique name of the plugin in UpperCamelCase
-    'View references from t3blog.com'    // A title shown in the backend dropdown field
+    'RSS-Feed renderer'    // A title shown in the backend dropdown field
 );
 
 t3lib_extMgm::addStaticFile($_EXTKEY, 'Configuration/TypoScript', 'View references from t3blog.com');

@@ -31,7 +31,7 @@
  * @version $Id:$
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License, version 2
  */
-class Tx_T3orgT3blogrefviewer_Controller_FeedController extends Tx_Extbase_MVC_Controller_ActionController {
+class Tx_T3orgFeedparser_Controller_FeedController extends Tx_Extbase_MVC_Controller_ActionController {
 
     /**
      * Show teasers from an rss feed
@@ -50,6 +50,10 @@ class Tx_T3orgT3blogrefviewer_Controller_FeedController extends Tx_Extbase_MVC_C
 	    	}
 	    	$feedUrl = $this->settings['feedUrl'];
 	    	
+	    	if(!empty($this->settings['templatePathAndName'])) {
+	    		$this->view->setTemplatePathAndFilename(t3lib_div::getFileAbsFileName($this->settings['templatePathAndName']));
+	    	}
+	    	
 	    	$feedStr = t3lib_div::getUrl($feedUrl);
 	    	
 	    	if(empty($feedStr)) {
@@ -61,7 +65,7 @@ class Tx_T3orgT3blogrefviewer_Controller_FeedController extends Tx_Extbase_MVC_C
 	    	}
 	    	
 	    	//throws errors on its own
-    		$feed = new Tx_T3orgT3blogrefviewer_Domain_Model_Feed($feedStr, LIBXML_NOCDATA);
+    		$feed = new Tx_T3orgFeedparser_Domain_Model_Feed($feedStr, LIBXML_NOCDATA);
     		
     		$this->view->assign('feed', $feed);
 	    	
@@ -70,7 +74,7 @@ class Tx_T3orgT3blogrefviewer_Controller_FeedController extends Tx_Extbase_MVC_C
     		$this->view->assign('error', $e->getMessage());
     	}
     }
-
+	
 }
 
 ?>

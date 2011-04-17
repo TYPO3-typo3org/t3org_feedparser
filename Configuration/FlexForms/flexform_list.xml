@@ -7,7 +7,7 @@
 				</TCEforms>
 				<type>array</type>
 				<el>
-					<feedUrl>
+					<settings.feedUrl>
 						<TCEforms>
 							<label>URL of the feed</label>
 							<config>
@@ -16,7 +16,17 @@
 								<eval>trim,required</eval>
 							</config>
 						</TCEforms>
-					</feedUrl>
+					</settings.feedUrl>
+					<settings.templatePathAndName>
+						<TCEforms>
+							<label>The template path to use</label>
+							<config>
+								<type>input</type>
+								<size>255</size>
+								<eval>trim</eval>
+							</config>
+						</TCEforms>
+					</settings.templatePathAndName>
 				</el>
 			</ROOT>
 		</sDEF>

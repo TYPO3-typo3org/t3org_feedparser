@@ -11,8 +11,8 @@
 ########################################################################
 
 $EM_CONF[$_EXTKEY] = array(
-	'title' => 'View references from t3blog.com',
-	'description' => 'A plugin that shows references from the t3blog read from an RSS feed.',
+	'title' => 'RSS-Feed renderer',
+	'description' => 'A plugin that shows content of an RSS feed.',
 	'category' => 'plugin',
 	'author' => 'Christian Zenker',
 	'author_email' => 'christian.zenker@599media.de',

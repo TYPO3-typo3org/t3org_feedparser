@@ -81,7 +81,7 @@
  * @version $Id:$
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License, version 2
  */
-class Tx_T3orgT3blogrefviewer_Domain_Model_Feed extends SimpleXMLElement {
+class Tx_T3orgFeedparser_Domain_Model_Feed extends SimpleXMLElement {
 	
 	/**
 	 * do some magic and implement all getters
