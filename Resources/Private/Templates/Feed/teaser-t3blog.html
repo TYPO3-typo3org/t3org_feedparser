@@ -8,12 +8,13 @@
 		<!-- In case t3blog.com is down, display something else. -->
 	</f:then>
 	<f:else>
-		<h1>{feed.channel.title}</h1>
+		<strong>{feed.channel.title}</strong>
+		<ul>
 		<f:for each="{feed.channel.item}" as="item" key="itt">
-			<h3>{item.title}</h3>
-			<f:if condition="{item.description}">
-				<p>{item.xmlns-content.encoded}</p>
-			</f:if>
+			<li>{item.title}</li>
+			<!-- use namespaces like that: 
+			{item.xmlns-content.encoded} -->
 		</f:for>
+		</ul>
 	</f:else>
 </f:if>
