@@ -1,3 +1,4 @@
+{namespace feed=Tx_T3orgFeedparser_ViewHelpers}
 <!-- variables in the template: 
 	- error (string): set if an error occured (feed should be empty then)
 	- feed (object): an object representation of the feed 
@@ -11,7 +12,7 @@
 		<strong>{feed.channel.title}</strong>
 		<ul>
 		<f:for each="{feed.channel.item}" as="item" key="itt">
-			<li>{item.title}</li>
+			<li><feed:escape>{item.title}</feed:escape></li>
 			<!-- use namespaces like that: 
 			{item.xmlns-content.encoded} -->
 		</f:for>

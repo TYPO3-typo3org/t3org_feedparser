@@ -11,10 +11,8 @@
 	</f:then>
 	<f:else>
 		<!-- get attributes this way: -->
-		<span id="forge-ticker-name">{feed.entry.author.name}</span>
-		<span id="forge-ticker-date"><feed:format.timeToAgoString>{feed.entry.updated}</feed:format.timeToAgoString></span>
-		<span id="forge-ticker-desc"><a href="{feed.entry.link.attribute-href}"><f:format.crop maxCharacters="100" respectWordBoundaries="1" respectHtml="0">{feed.entry.title}</f:format.crop></a></span>
-		
-		{feed.entry.link.attribute-href}
+		<span id="forge-ticker-name"><feed:escape>{feed.entry.author.name}</feed:escape></span> on forge
+		<span id="forge-ticker-date"><feed:format.timeToAgoString><feed:escape>{feed.entry.updated}</feed:escape></feed:format.timeToAgoString></span>:
+		<span id="forge-ticker-desc"><a href="{feed:escape(value:feed.entry.link.attribute-href)}"><f:format.crop maxCharacters="60" respectWordBoundaries="1" respectHtml="0"><feed:escape>{feed.entry.title}</feed:escape></f:format.crop></a></span>
 	</f:else>
 </f:if>
