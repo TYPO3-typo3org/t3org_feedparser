@@ -55,6 +55,8 @@ class Tx_T3orgFeedparser_ViewHelpers_EscapeViewHelper extends Tx_Fluid_Core_View
 		}
 
 		switch ($type) {
+			case 'decode':
+				return htmlspecialchars_decode($value, ENT_COMPAT);
 			case 'html':
 				return htmlspecialchars($value, ENT_COMPAT, $encoding);
 			break;
