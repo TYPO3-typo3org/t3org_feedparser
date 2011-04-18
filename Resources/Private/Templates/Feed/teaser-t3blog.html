@@ -9,13 +9,17 @@
 		<!-- In case t3blog.com is down, display something else. -->
 	</f:then>
 	<f:else>
-		<strong>{feed.channel.title}</strong>
-		<ul>
-		<f:for each="{feed.channel.item}" as="item" key="itt">
-			<li><feed:escape>{item.title}</feed:escape></li>
-			<!-- use namespaces like that: 
-			{item.xmlns-content.encoded} -->
-		</f:for>
-		</ul>
+		<div id="references">
+			<h5>{feed.channel.item.title}</h5>
+			<div class="scrollable">
+				<div class="items">
+					<f:for each="{feed.channel.item}" as="item" key="key" iteration="iteration">
+						<div><a href="{feed:escape(value:item.link)}" title="{feed:escape(value:item.title)}"><img src="http://placehold.it/223x115&text=item{iteration.index}" alt="{feed:escape(value:item.description)}"></a></div>
+					</f:for>
+				</div>
+			</div>
+			<a class="prev" title="previous"><f:translate key="previous" /></a>
+			<a class="next" title="next"><f:translate key="next" /></a>
+		</div>
 	</f:else>
 </f:if>
