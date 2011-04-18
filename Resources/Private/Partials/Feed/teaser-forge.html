@@ -1,3 +1,4 @@
+{namespace feed=Tx_T3orgFeedparser_ViewHelpers}
 <!-- variables in the template: 
 	- error (string): set if an error occured (feed should be empty then)
 	- feed (object): an object representation of the feed 
@@ -10,6 +11,10 @@
 	</f:then>
 	<f:else>
 		<!-- get attributes this way: -->
+		<span id="forge-ticker-name">{feed.entry.author.name}</span>
+		<span id="forge-ticker-date"><feed:format.timeToAgoString>{feed.entry.updated}</feed:format.timeToAgoString></span>
+		<span id="forge-ticker-desc"><a href="{feed.entry.link.attribute-href}"><f:format.crop maxCharacters="100" respectWordBoundaries="1" respectHtml="0">{feed.entry.title}</f:format.crop></a></span>
+		
 		{feed.entry.link.attribute-href}
 	</f:else>
 </f:if>

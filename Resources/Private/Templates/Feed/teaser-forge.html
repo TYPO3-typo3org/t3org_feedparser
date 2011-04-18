@@ -4,6 +4,6 @@
 	feedUrl is the feedUrl to fetch
 	cacheTime is the cache time in seconds (ATTENTION: This should not be to small, as forge is rather slow (up to 10sek), so caching would not yield any advantages then).
 -->
-<feed:widget.remoteable templatePathAndName="EXT:t3org_feedparser/Resources/Private/Partials/Feed/teaser-forge.html" feedUrl="{feedUrl}" cacheTime="60">
-	<div id="what-a-nice-placeholder" rel="{remoteUri}">Hello World, try this: <a href="{remoteUri}">{remoteUri}</a></div>
+<feed:widget.remoteable templatePathAndName="EXT:t3org_feedparser/Resources/Private/Partials/Feed/teaser-forge.html" feedUrl="{feedUrl}" cacheTime="0">
+	<div id="forge-ticker" rel="{remoteUri}"><a href="{remoteUri}">These things will be loaded via AJAX.</a></div>
 </feed:widget.remoteable>

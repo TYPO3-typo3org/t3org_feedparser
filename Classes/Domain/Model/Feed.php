@@ -106,6 +106,14 @@ class Tx_T3orgFeedparser_Domain_Model_Feed extends SimpleXMLElement {
 	}
 	
 	/**
+	 * override the default getName() method to
+	 * be able to get a tag called <name>
+	 */
+	public function getName() {
+		return $this->name;
+	}
+	
+	/**
 	 * __toString()
 	 * @return string
 	 */
