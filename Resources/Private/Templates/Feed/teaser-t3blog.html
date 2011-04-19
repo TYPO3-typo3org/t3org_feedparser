@@ -14,7 +14,7 @@
 			<div class="scrollable">
 				<div class="items">
 					<f:for each="{feed.channel.item}" as="item" key="key" iteration="iteration">
-						<div><a href="{feed:escape(value:item.link)}" title="{feed:escape(value:item.title)}"><img src="{item.enclosure.attribute-url}" alt="{feed:escape(value:item.description)}" width="223" height="115"></a></div>
+						<div><a href="{feed:escape(value:item.link)}" title="{feed:escape(value:item.title)}" target="_blank"><img src="{item.enclosure.attribute-url}" alt="{feed:escape(value:item.description)}" width="223" height="115"></a></div>
 					</f:for>
 				</div>
 			</div>
