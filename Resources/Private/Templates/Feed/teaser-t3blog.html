@@ -1,12 +1,7 @@
 {namespace feed=Tx_T3orgFeedparser_ViewHelpers}
-<!-- variables in the template: 
-	- error (string): set if an error occured (feed should be empty then)
-	- feed (object): an object representation of the feed 
--->
 <f:if condition="{error}">
 	<f:then>
-		Some error occured: {error}
-		<!-- In case t3blog.com is down, display something else. -->
+		<!-- Some error occured: {error} -->
 	</f:then>
 	<f:else>
 		<div id="references">

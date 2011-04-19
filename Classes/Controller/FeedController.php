@@ -67,6 +67,9 @@ class Tx_T3orgFeedparser_Controller_FeedController extends Tx_Extbase_MVC_Contro
 	    	
     		$this->view->assign('feed', $feed);
 	    	$this->view->assign('feedUrl', $feedUrl);
+	    	
+	    	// call explicitly to fetch exceptions thrown by Domain_Model_LazyFeed
+	    	return $this->view->render();
     		
     	} catch (Exception $e) {
     		t3lib_div::sysLog($e->getMessage(), 't3org_feedparser', LOG_ERR);
