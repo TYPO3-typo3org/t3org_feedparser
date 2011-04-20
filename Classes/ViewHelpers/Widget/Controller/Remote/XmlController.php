@@ -23,11 +23,8 @@
  * @author Christian Zenker <christian.zenker@599media.de>
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License, version 3 or later
  */
-class Tx_T3orgFeedparser_ViewHelpers_Widget_Controller_RemoteableController extends Tx_Fluid_Core_Widget_AbstractWidgetController {
+class Tx_T3orgFeedparser_ViewHelpers_Widget_Controller_Remote_XmlController extends Tx_Fluid_Core_Widget_AbstractWidgetController {
 
-	/*
-	 * widgetConfiguration
-	 */
 
 	/**
 	 * the action to place (a usually empty) container to the 

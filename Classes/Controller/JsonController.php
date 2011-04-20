@@ -33,7 +33,7 @@
 class Tx_T3orgFeedparser_Controller_JsonController extends Tx_Extbase_MVC_Controller_ActionController {
 
     /**
-     * Show teasers from an rss feed
+     * Show teasers from a json feed
      *
      * assigned to template:
      * =====================

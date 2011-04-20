@@ -37,8 +37,8 @@ class Tx_T3orgFeedparser_Domain_Model_LazyJson implements IteratorAggregate {
 		if(is_null($this->data)) {
 			$this->fetchData();
 		}
-		if (strncmp($functionName, 'get', 3) === 0) {
-			$propertyName = t3lib_div::underscoredToLowerCamelCase(substr($functionName, 3));
+		if (strncmp($methodName, 'get', 3) === 0) {
+			$propertyName = t3lib_div::underscoredToLowerCamelCase(substr($methodName, 3));
 			
 			return $this->data[$propertyName];
 		}
@@ -85,7 +85,7 @@ class Tx_T3orgFeedparser_Domain_Model_LazyJson implements IteratorAggregate {
     	}
 	}
 	
-	public function getIterator () {
+	public function getIterator() {
 		if(is_null($this->data)) {
 			$this->fetchData();
 		}

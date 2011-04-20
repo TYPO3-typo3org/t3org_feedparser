@@ -23,33 +23,27 @@
  * @author Christian Zenker <christian.zenker@599media.de>
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License, version 3 or later
  */
-class Tx_T3orgFeedparser_ViewHelpers_Widget_RemoteableViewHelper extends Tx_Fluid_Core_Widget_AbstractWidgetViewHelper {
+class Tx_T3orgFeedparser_ViewHelpers_Widget_JsonViewHelper extends Tx_Fluid_Core_Widget_AbstractWidgetViewHelper {
 
 	/**
-	 * @var bool
-	 */
-	protected $ajaxWidget = TRUE;
-	
-	/**
-	 * @var Tx_T3orgFeedparser_ViewHelpers_Widget_Controller_RemoteableController
+	 * @var Tx_T3orgFeedparser_ViewHelpers_Widget_Controller_JsonController
 	 */
 	protected $controller;
 
 	/**
-	 * @param Tx_T3orgFeedparser_ViewHelpers_Widget_Controller_RemoteableController $controller
+	 * @param Tx_T3orgFeedparser_ViewHelpers_Widget_Controller_JsonController $controller
 	 * @return void
 	 */
-	public function injectController(Tx_T3orgFeedparser_ViewHelpers_Widget_Controller_RemoteableController $controller) {
+	public function injectController(Tx_T3orgFeedparser_ViewHelpers_Widget_Controller_JsonController $controller) {
 		$this->controller = $controller;
 	}
 
 	/**
 	 * @param string $templatePathAndName
 	 * @param string $feedUrl
-	 * @param integer $cacheTime the max time in seconds the cache is valid
 	 * @return string
 	 */
-	public function render($templatePathAndName = '', $feedUrl = '', $cacheTime=60) {
+	public function render($templatePathAndName = '', $feedUrl = '') {
 		return $this->initiateSubRequest();
 	}
 }
