@@ -33,7 +33,7 @@ class Tx_T3orgFeedparser_ViewHelpers_Widget_Controller_Remote_XmlController exte
 	 * @return void
 	 */
 	public function indexAction() {
-		$key = $this->getHashFromArray($content);
+		$key = $this->getHashFromArray($this->widgetConfiguration);
 		$this->writeRegistry($key, $this->widgetConfiguration);
 		$this->view->assign('remoteArguments', array('key' => $key));
 	}
@@ -71,6 +71,12 @@ class Tx_T3orgFeedparser_ViewHelpers_Widget_Controller_Remote_XmlController exte
 	    	
     		$this->view->assign('feed', $feed);
     		$this->view->assign('feedUrl', $feedUrl);
+    		
+    		if($this->widgetConfiguration['arguments'] && is_array($this->widgetConfiguration['arguments'])) {
+    			foreach($this->widgetConfiguration['arguments'] as $argkey=>$value) {
+    				$this->view->assign($argkey,$value);
+    			}
+    		}
     		
     		return $this->writeCache($key);
 	    	
@@ -123,6 +129,7 @@ class Tx_T3orgFeedparser_ViewHelpers_Widget_Controller_Remote_XmlController exte
 				'feedUrl' => $this->widgetConfiguration['feedUrl'],
 				'templatePathAndName' => $this->widgetConfiguration['templatePathAndName'],
 				'cacheTime' => $this->widgetConfiguration['cacheTime'],
+				'arguments' => $this->widgetConfiguration['arguments'],
 			);
 		}
 		

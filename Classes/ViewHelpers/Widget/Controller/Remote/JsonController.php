@@ -67,6 +67,12 @@ class Tx_T3orgFeedparser_ViewHelpers_Widget_Controller_Remote_JsonController ext
     		$this->view->assign('feed', $feed);
 	    	$this->view->assign('feedUrl', $feedUrl);
     		
+			if($this->widgetConfiguration['arguments'] && is_array($this->widgetConfiguration['arguments'])) {
+    			foreach($this->widgetConfiguration['arguments'] as $argkey=>$value) {
+    				$this->view->assign($argkey,$value);
+    			}
+    		}
+	    	
     		return $this->writeCache($key);
 	    	
     	} catch (Exception $e) {
