@@ -29,7 +29,6 @@ class Tx_T3orgFeedparser_ViewHelpers_Format_Twitter_TweetViewHelper extends Tx_F
 
 	protected static $twitterSearchBase = 'http://search.twitter.com/search';
 	protected static $twitterUserBase = 'http://twitter.com/';
-	
 	/**
 	 * @param string $tweet
 	 * @param boolean $linkHashTag
@@ -41,17 +40,12 @@ class Tx_T3orgFeedparser_ViewHelpers_Format_Twitter_TweetViewHelper extends Tx_F
 		if(empty($tweet)) {
 			$tweet = trim($this->renderChildren());
 		}
-		$tweet = htmlspecialchars($tweet);
 		
-	
-		if($linkUrl) {
-			$tweet = preg_replace_callback('|http://[^\s]+|', array(get_class($this), 'linkUrl'), $tweet);
-		}
 		if($linkHashTag) {
-			$tweet = preg_replace_callback('|#[^\s]+|', array(get_class($this), 'linkHashTag'), $tweet);
+			$tweet = preg_replace_callback('|#[\w\d_]+|i', array(get_class($this), 'linkHashTag'), $tweet);
 		}
 		if($linkUser) {
-			$tweet = preg_replace_callback('|@[^\s]+|', array(get_class($this), 'linkUser'), $tweet);
+			$tweet = preg_replace_callback('|@[\w\d_]+|i', array(get_class($this), 'linkUser'), $tweet);
 		}
 		
 		return $tweet;
