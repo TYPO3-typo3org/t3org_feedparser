@@ -56,10 +56,14 @@ class Tx_T3orgFeedparser_ViewHelpers_Format_TimeToAgoStringViewHelper extends Tx
 			return 'a few minutes ago';
 		} elseif($secsAgo < 3600) {
 			return sprintf('%d minutes ago', round($secsAgo / 60));
-		} elseif($secondsAgo < 7200) {
+		} elseif($secsAgo < 7200) {
 			return 'about an hour ago';
-		} elseif($secondsAgo < 36000) {
+		} elseif($secsAgo < 64800) {
 			return sprintf('%d hours ago', round($secsAgo / 3600));
+		} elseif($secsAgo < 151200) {
+			return 'about one day ago';
+		} else {
+			return 'a few days ago';
 		}
 		
 	}
