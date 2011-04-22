@@ -29,9 +29,8 @@ class Tx_T3orgFeedparser_ViewHelpers_Widget_Controller_Remote_JsonController ext
 	/**
 	 * the remote action called via AJAX
 	 * 
-	 * @param string $key a hashed key to fetch configuration from database
 	 */
-	public function remoteAction($key) {
+	public function remoteAction() {
 		
 		try {
 		
