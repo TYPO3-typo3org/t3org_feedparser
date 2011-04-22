@@ -33,9 +33,7 @@ class Tx_T3orgFeedparser_ViewHelpers_Widget_Controller_Remote_XmlController exte
 	 * @return void
 	 */
 	public function indexAction() {
-		$key = $this->getHashFromArray($this->widgetConfiguration);
-		$this->writeRegistry($key, $this->widgetConfiguration);
-		$this->view->assign('remoteArguments', array('key' => $key));
+//		var_dump($this->request->getWidgetContext()->getAjaxWidgetIdentifier());
 	}
 	
 	/**
@@ -43,14 +41,9 @@ class Tx_T3orgFeedparser_ViewHelpers_Widget_Controller_Remote_XmlController exte
 	 * 
 	 * @param string $key a hashed key to fetch configuration from database
 	 */
-	public function remoteAction($key) {
+	public function remoteAction() {
 		
 		try {
-			// restore the configuration from the database
-			$this->widgetConfiguration = $this->readRegistry($key);
-			if($content = $this->readCache()) {
-				return $content;
-			}
 			
 			// check if the result was already cached and is still valid
 			if(empty($this->widgetConfiguration)) {
@@ -78,108 +71,14 @@ class Tx_T3orgFeedparser_ViewHelpers_Widget_Controller_Remote_XmlController exte
     			}
     		}
     		
-    		return $this->writeCache($key);
+    		return $this->view->render();
 	    	
     	} catch (Exception $e) {
     		t3lib_div::sysLog($e->getMessage(), 't3org_feedparser', LOG_ERR);
     		$this->view->assign('error', $e->getMessage());
     	}
 	}
-	
-	/**
-	 * the registry handling sys_register
-	 * @var t3lib_Registry
-	 */
-	protected $registry = null;
-	
-	/**
-	 * get the registry handling sys_register
-	 * @return t3lib_Registry
-	 */
-	protected function getRegistry() {
-		if(is_null($this->registry)) {
-			$this->registry = t3lib_div::makeInstance('t3lib_Registry');
-		}
-		return $this->registry;
-	}
-	
-	/**
-	 * read a value from the registry
-	 * @param string $key
-	 */
-	protected function readRegistry($key) {
-		return $this->getRegistry()->get(
-			'tx_'.$this->request->getControllerExtensionKey(),
-			$key
-		);
-	}
-	
-	/**
-	 * write a value to the registry
-	 * @param string $key
-	 * @param mixed $content
-	 */
-	protected function writeRegistry($key, $content) {
-		
-		if($content instanceof Tx_Fluid_Core_ViewHelper_Arguments) {
-			/* if this is an argument class -> make it a plain array
-			 * otherwise its not possible to add values later on (caching)
-			 */
-			$content = array(
-				'feedUrl' => $this->widgetConfiguration['feedUrl'],
-				'templatePathAndName' => $this->widgetConfiguration['templatePathAndName'],
-				'cacheTime' => $this->widgetConfiguration['cacheTime'],
-				'arguments' => $this->widgetConfiguration['arguments'],
-			);
-		}
-		
-		$this->getRegistry()->set(
-			'tx_'.$this->request->getControllerExtensionKey(),
-			$key,
-			$content
-		);
-		return $key;
-	}
-	
-	/**
-	 * create a hash from a given array
-	 * 
-	 * (no necessarity to be a secure hash - any semi-random value would do)
-	 * 
-	 * @param array $array
-	 * @return string
-	 */
-	protected function getHashFromArray($array) {
-		return md5(serialize($array));
-	}
-	
-	/**
-	 * read a page from cache
-	 * 
-	 * @return string|false
-	 */
-	protected function readCache() {
-		if(array_key_exists('cacheContent', $this->widgetConfiguration) && array_key_exists('cacheDiscardAt', $this->widgetConfiguration)) {
-			if(intval($this->widgetConfiguration['cacheDiscardAt']) >= time()) {
-				return $this->widgetConfiguration['cacheContent'];
-			} 
-		}
-		return false;
-	}
-	
-	/**
-	 * store a page to cache
-	 * @param string $key
-	 * @return the rendered content
-	 */
-	protected function writeCache($key) {
-		$renderContent = $this->view->render();
-		$this->widgetConfiguration['cacheContent'] = $renderContent;
-		$this->widgetConfiguration['cacheDiscardAt'] = time() + $this->widgetConfiguration['cacheTime'];
-		$this->writeRegistry($key, $this->widgetConfiguration);
-		return $renderContent;
-	}
-	
+
 }
 
 ?>

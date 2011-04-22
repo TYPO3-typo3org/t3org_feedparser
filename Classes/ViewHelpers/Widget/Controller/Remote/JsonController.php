@@ -34,13 +34,7 @@ class Tx_T3orgFeedparser_ViewHelpers_Widget_Controller_Remote_JsonController ext
 	public function remoteAction($key) {
 		
 		try {
-			// restore the configuration from the database
-			$this->widgetConfiguration = $this->readRegistry($key);
-			if($content = $this->readCache()) {
-				return $content;
-			}
-			
-			// check if the result was already cached and is still valid
+		
 			if(empty($this->widgetConfiguration)) {
 				throw new RuntimeException('Could not find configuration for this key.');
 			}
@@ -73,7 +67,7 @@ class Tx_T3orgFeedparser_ViewHelpers_Widget_Controller_Remote_JsonController ext
     			}
     		}
 	    	
-    		return $this->writeCache($key);
+    		return $this->view->render();
 	    	
     	} catch (Exception $e) {
     		t3lib_div::sysLog($e->getMessage(), 't3org_feedparser', LOG_ERR);
