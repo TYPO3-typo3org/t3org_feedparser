@@ -37,12 +37,16 @@ class Tx_T3orgFeedparser_ViewHelpers_Format_ReformatDateViewHelper extends Tx_Fl
 			$time = trim($this->renderChildren());
 		}
 		
+		if(is_object($time) && !$time instanceof DateTime) {
+			$time = (string) $time;
+		}
+		
 		if(is_string($time)) {
 			$time = strtotime($time);
 		} elseif(is_numeric($time)) {
 			$time = intval($time);
 		} else {
-			throw new InvalidArgument('time needs to be a string integer.');
+			throw new InvalidArgumentException('time needs to be a string integer.');
 		}
 		
 		return strftime($format, $time);
