@@ -48,7 +48,10 @@ class Tx_T3orgFeedparser_Controller_JsonController extends Tx_Extbase_MVC_Contro
 	    	if(!$this->settings['feedUrl']) {
 	    		throw new InvalidArgumentException('feedUrl is not configured.');
 	    	}
+	    	
 	    	$feedUrl = $this->settings['feedUrl'];
+	    	
+	    	$cacheTime = intval($this->settings['cacheTime']);
 	    	
 	    	if(!empty($this->settings['templatePathAndName'])) {
 	    		$this->view->setTemplatePathAndFilename(t3lib_div::getFileAbsFileName($this->settings['templatePathAndName']));
@@ -63,6 +66,7 @@ class Tx_T3orgFeedparser_Controller_JsonController extends Tx_Extbase_MVC_Contro
 	    	 */
 	    	$feed = new Tx_T3orgFeedparser_Domain_Model_LazyJson();
 	    	$feed->setFeedUrl($feedUrl);
+	    	$feed->setCacheTime($cacheTime);
 	    	
     		$this->view->assign('feed', $feed);
 	    	$this->view->assign('feedUrl', $feedUrl);

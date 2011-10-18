@@ -51,6 +51,8 @@ class Tx_T3orgFeedparser_Controller_FeedController extends Tx_Extbase_MVC_Contro
 	    	}
 	    	$feedUrl = $this->settings['feedUrl'];
 	    	
+	    	$cacheTime = intval($this->settings['cacheTime']);
+	    	
 	    	if(!empty($this->settings['templatePathAndName'])) {
 	    		$this->view->setTemplatePathAndFilename(t3lib_div::getFileAbsFileName($this->settings['templatePathAndName']));
 	    	}
@@ -64,6 +66,7 @@ class Tx_T3orgFeedparser_Controller_FeedController extends Tx_Extbase_MVC_Contro
 	    	 */
 	    	$feed = new Tx_T3orgFeedparser_Domain_Model_LazyFeed();
 	    	$feed->setFeedUrl($feedUrl);
+	    	$feed->setCacheTime($cacheTime);
 	    	
     		$this->view->assign('feed', $feed);
 	    	$this->view->assign('feedUrl', $feedUrl);
