@@ -27,6 +27,16 @@
 							</config>
 						</TCEforms>
 					</settings.templatePathAndName>
+					<settings.cacheTime>
+						<TCEforms>
+							<label>CacheTime in seconds</label>
+							<config>
+								<type>input</type>
+								<size>6</size>
+								<eval>int</eval>
+							</config>
+						</TCEforms>
+					</settings.cacheTime>
 				</el>
 			</ROOT>
 		</sDEF>
