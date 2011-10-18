@@ -54,6 +54,7 @@ class Tx_T3orgFeedparser_ViewHelpers_Widget_Controller_Remote_XmlController exte
 	    		throw new InvalidArgumentException('feedUrl is not configured.');
 	    	}
 	    	$feedUrl = $this->widgetConfiguration['feedUrl'];
+	    	$cacheTime = $this->widgetConfiguration['cacheTime'];
 	    	
 	    	if(!empty($this->widgetConfiguration['templatePathAndName'])) {
 	    		$this->view->setTemplatePathAndFilename(t3lib_div::getFileAbsFileName($this->widgetConfiguration['templatePathAndName']));
@@ -61,6 +62,7 @@ class Tx_T3orgFeedparser_ViewHelpers_Widget_Controller_Remote_XmlController exte
     		
 	    	$feed = new Tx_T3orgFeedparser_Domain_Model_LazyFeed();
 	    	$feed->setFeedUrl($feedUrl);
+	    	$feed->setCacheTime($cacheTime);
 	    	
     		$this->view->assign('feed', $feed);
     		$this->view->assign('feedUrl', $feedUrl);

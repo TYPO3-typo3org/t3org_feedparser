@@ -41,9 +41,10 @@ class Tx_T3orgFeedparser_ViewHelpers_Widget_XmlViewHelper extends Tx_Fluid_Core_
 	/**
 	 * @param string $templatePathAndName
 	 * @param string $feedUrl
+	 * @param integer $cacheTime
 	 * @return string
 	 */
-	public function render($templatePathAndName = '', $feedUrl = '') {
+	public function render($templatePathAndName = '', $feedUrl = '', $cacheTime = 0) {
 		return $this->initiateSubRequest();
 	}
 }
