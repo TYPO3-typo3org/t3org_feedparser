@@ -23,70 +23,16 @@
  * @author Christian Zenker <christian.zenker@599media.de>
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License, version 3 or later
  */
-class Tx_T3orgFeedparser_ViewHelpers_Widget_Controller_Remote_JsonController extends Tx_T3orgFeedparser_ViewHelpers_Widget_Controller_Remote_XmlController {
-
-	
-	/**
-	 * the remote action called via AJAX
-	 *
-     * @return string
-	 */
-	public function remoteAction() {
-		
-		try {
-		
-			if(empty($this->widgetConfiguration)) {
-				throw new RuntimeException('Could not find configuration for this key.');
-			}
-		
-			if(!$this->widgetConfiguration['feedUrl']) {
-	    		throw new InvalidArgumentException('feedUrl is not configured.');
-	    	}
-	    	$feedUrl = $this->widgetConfiguration['feedUrl'];
-	    	$cacheTime = $this->widgetConfiguration['cacheTime'];
-	    	
-	    	if(!empty($this->widgetConfiguration['templatePathAndName'])) {
-	    		$this->view->setTemplatePathAndFilename(t3lib_div::getFileAbsFileName($this->widgetConfiguration['templatePathAndName']));
-	    	}
-    		
-	    	/**
-	    	 * some lazy fetching feed
-	    	 * 
-	    	 * it just does its time-consuming work when it is actually needed
-	    	 * 
-	    	 * @var Tx_T3orgFeedparser_Domain_Model_LazyJson
-	    	 */
-	    	$feed = new Tx_T3orgFeedparser_Domain_Model_LazyJson();
-	    	$feed->setFeedUrl($feedUrl);
-	    	$feed->setCacheTime($cacheTime);
-	    	
-    		$this->view->assign('feed', $feed);
-
-            $this->setCachingHeaders();
-    		
-			if($this->widgetConfiguration['arguments'] && is_array($this->widgetConfiguration['arguments'])) {
-    			foreach($this->widgetConfiguration['arguments'] as $argkey=>$value) {
-    				$this->view->assign($argkey,$value);
-    			}
-    		}
-	    	
-    		return $this->view->render();
-	    	
-    	} catch (Exception $e) {
-    		t3lib_div::sysLog($e->getMessage(), 't3org_feedparser', LOG_ERR);
-    		$this->view->assign('error', $e->getMessage());
-    	}
-	}
-
+class Tx_T3orgFeedparser_ViewHelpers_Widget_Controller_Remote_JsonController extends Tx_T3orgFeedparser_ViewHelpers_Widget_Controller_Remote_AbstractController {
 
     /**
-     * set individual cache times for each request on TYPO3 response
+     * get the corresponding feed object
+     *
+     * @return Tx_T3orgFeedparser_Domain_Model_FeedInterface
      */
-    protected function setCachingHeaders() {
-        $cacheTime = $this->widgetConfiguration['cacheTime'];
-        $GLOBALS['TSFE']->set_cache_timeout_default($cacheTime);
+    protected function getFeedObject() {
+        return new Tx_T3orgFeedparser_Domain_Model_LazyJson();
     }
-
 }
 
 ?>

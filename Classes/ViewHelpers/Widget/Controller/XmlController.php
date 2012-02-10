@@ -19,57 +19,28 @@
  *                                                                        */
 
 /**
- * 
+ * a widget to display an XML feed inline
+ *
  * @author Christian Zenker <christian.zenker@599media.de>
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License, version 3 or later
  */
-class Tx_T3orgFeedparser_ViewHelpers_Widget_Controller_XmlController extends Tx_Fluid_Core_Widget_AbstractWidgetController {
+class Tx_T3orgFeedparser_ViewHelpers_Widget_Controller_XmlController extends Tx_T3orgFeedparser_ViewHelpers_Widget_Controller_AbstractController {
 
     /**
-     * Show teasers from a sml feed
+     * action to render the content of the feed
      *
-     * assigned to template:
-     * =====================
-     *  * feed - Tx_T3orgT3blogrefviewer_Domain_Model_LazyXml - a representation of the feed
-     *  * feedUrl - the feedUrl that should be fetched
-     *  * error - contains an error message if something went wrong when trying to create the feed object
-     *  
+     * @see Tx_T3orgFeedparser_ViewHelpers_Widget_Controller_AbstractController::main()
      * @return string
      */
     public function indexAction() {
-    	try {
-	    	if(!$this->widgetConfiguration['feedUrl']) {
-	    		throw new InvalidArgumentException('feedUrl is not configured.');
-	    	}
-	    	$feedUrl = $this->widgetConfiguration['feedUrl'];
-	    	$cacheTime = $this->widgetConfiguration['cacheTime'];
-	    	
-	    	if(!empty($this->widgetConfiguration['templatePathAndName'])) {
-	    		$this->view->setTemplatePathAndFilename(t3lib_div::getFileAbsFileName($this->widgetConfiguration['templatePathAndName']));
-	    	}
-    		
-	    	/**
-	    	 * some lazy fetching feed
-	    	 * 
-	    	 * it just does its time-consuming work when it is actually needed
-	    	 * 
-	    	 * @var Tx_T3orgFeedparser_Domain_Model_LazyFeed
-	    	 */
-	    	$feed = new Tx_T3orgFeedparser_Domain_Model_LazyFeed();
-	    	$feed->setFeedUrl($feedUrl);
-	    	$feed->setCacheTime($cacheTime);
-	    	
-    		$this->view->assign('feed', $feed);
-	    	$this->view->assign('feedUrl', $feedUrl);
-            $this->view->assign('cacheTime', $cacheTime);
-	    	
-	    	// call explicitly to fetch exceptions thrown by Domain_Model_LazyFeed
-	    	return $this->view->render();
-    		
-    	} catch (Exception $e) {
-    		t3lib_div::sysLog($e->getMessage(), 't3org_feedparser', LOG_ERR);
-    		$this->view->assign('error', $e->getMessage());
-    	}
+    	return $this->main();
+    }
+
+    /**
+     * @return Tx_T3orgFeedparser_Domain_Model_LazyFeed
+     */
+    protected function getFeedObject() {
+        return new Tx_T3orgFeedparser_Domain_Model_LazyFeed();
     }
 }
 

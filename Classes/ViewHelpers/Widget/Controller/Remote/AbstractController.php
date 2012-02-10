@@ -19,20 +19,45 @@
  *                                                                        */
 
 /**
- * 
+ *
  * @author Christian Zenker <christian.zenker@599media.de>
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License, version 3 or later
  */
-class Tx_T3orgFeedparser_ViewHelpers_Widget_Controller_Remote_XmlController extends Tx_T3orgFeedparser_ViewHelpers_Widget_Controller_Remote_AbstractController {
+abstract class Tx_T3orgFeedparser_ViewHelpers_Widget_Controller_Remote_AbstractController extends Tx_T3orgFeedparser_ViewHelpers_Widget_Controller_AbstractController {
+
     /**
-     * get the corresponding feed object
+     * the action to place (a usually empty) container to the
+     * template to be filled remotely
      *
-     * @return Tx_T3orgFeedparser_Domain_Model_FeedInterface
+     * @return void
      */
-    protected function getFeedObject() {
-        return new Tx_T3orgFeedparser_Domain_Model_LazyFeed();
+    public function indexAction() {
     }
 
+    /**
+     * the remote action called via AJAX
+     *
+     * @return string
+     */
+    public function remoteAction() {
+        $return = $this->main();
+        $this->setCachingHeaders();
+        return $return;
+    }
+
+
+    /**
+     * set individual cache times for each request on TYPO3 response
+     */
+    protected function setCachingHeaders() {
+        $cacheTime = $this->widgetConfiguration['cacheTime'];
+        if($this->widgetConfiguration['cacheTime'] > 0 &&
+            $GLOBALS['TSFE']->cacheTimeOutDefault > 0 &&
+            $this->widgetConfiguration['cacheTime'] < $GLOBALS['TSFE']->cacheTimeOutDefault
+        ) {
+            $GLOBALS['TSFE']->set_cache_timeout_default($cacheTime);
+        }
+    }
 }
 
 ?>
