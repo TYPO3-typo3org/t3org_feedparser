@@ -61,6 +61,7 @@ class Tx_T3orgFeedparser_ViewHelpers_Widget_Controller_JsonController extends Tx
 	    	
     		$this->view->assign('feed', $feed);
 	    	$this->view->assign('feedUrl', $feedUrl);
+            $this->view->assign('cacheTime', $cacheTime);
 	    	
 	    	// call explicitly to fetch exceptions thrown by Domain_Model_LazyJson
 	    	return $this->view->render();

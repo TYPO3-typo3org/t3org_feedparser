@@ -28,7 +28,8 @@ class Tx_T3orgFeedparser_ViewHelpers_Widget_Controller_Remote_JsonController ext
 	
 	/**
 	 * the remote action called via AJAX
-	 * 
+	 *
+     * @return string
 	 */
 	public function remoteAction() {
 		
@@ -60,7 +61,8 @@ class Tx_T3orgFeedparser_ViewHelpers_Widget_Controller_Remote_JsonController ext
 	    	$feed->setCacheTime($cacheTime);
 	    	
     		$this->view->assign('feed', $feed);
-	    	$this->view->assign('feedUrl', $feedUrl);
+
+            $this->setCachingHeaders();
     		
 			if($this->widgetConfiguration['arguments'] && is_array($this->widgetConfiguration['arguments'])) {
     			foreach($this->widgetConfiguration['arguments'] as $argkey=>$value) {
@@ -75,6 +77,15 @@ class Tx_T3orgFeedparser_ViewHelpers_Widget_Controller_Remote_JsonController ext
     		$this->view->assign('error', $e->getMessage());
     	}
 	}
+
+
+    /**
+     * set individual cache times for each request on TYPO3 response
+     */
+    protected function setCachingHeaders() {
+        $cacheTime = $this->widgetConfiguration['cacheTime'];
+        $GLOBALS['TSFE']->set_cache_timeout_default($cacheTime);
+    }
 
 }
 

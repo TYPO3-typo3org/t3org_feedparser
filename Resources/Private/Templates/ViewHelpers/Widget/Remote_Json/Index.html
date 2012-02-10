@@ -1,2 +1,2 @@
 {namespace feed=Tx_T3orgFeedparser_ViewHelpers}
-<f:renderChildren arguments="{remoteUri:'{feed:widget.uri(action:\'remote\', ajax:\'1\')}'}" />
+<f:renderChildren arguments="{remoteUri:'{feed:widget.uri(action:\'remote\', ajax:\'1\', cacheable:\'{settings.cacheTime} > 0\')}'}" />

@@ -38,14 +38,13 @@ class Tx_T3orgFeedparser_ViewHelpers_Widget_Controller_Remote_XmlController exte
 	
 	/**
 	 * the remote action called via AJAX
-	 * 
-	 * @param string $key a hashed key to fetch configuration from database
+     *
+     * @return string
 	 */
 	public function remoteAction() {
 		
 		try {
-			
-			// check if the result was already cached and is still valid
+
 			if(empty($this->widgetConfiguration)) {
 				throw new RuntimeException('Could not find configuration for this key.');
 			}
@@ -59,20 +58,29 @@ class Tx_T3orgFeedparser_ViewHelpers_Widget_Controller_Remote_XmlController exte
 	    	if(!empty($this->widgetConfiguration['templatePathAndName'])) {
 	    		$this->view->setTemplatePathAndFilename(t3lib_div::getFileAbsFileName($this->widgetConfiguration['templatePathAndName']));
 	    	}
-    		
+
+            /**
+             * some lazy fetching feed
+             *
+             * it just does its time-consuming work when it is actually needed
+             *
+             * @var Tx_T3orgFeedparser_Domain_Model_LazyFeed
+             */
 	    	$feed = new Tx_T3orgFeedparser_Domain_Model_LazyFeed();
 	    	$feed->setFeedUrl($feedUrl);
 	    	$feed->setCacheTime($cacheTime);
-	    	
-    		$this->view->assign('feed', $feed);
-    		$this->view->assign('feedUrl', $feedUrl);
-    		
-    		if($this->widgetConfiguration['arguments'] && is_array($this->widgetConfiguration['arguments'])) {
+
+            $this->view->assign('feed', $feed);
+
+            $this->setCachingHeaders();
+
+    		// set all widget configuration as arguments in template
+            if($this->widgetConfiguration['arguments'] && is_array($this->widgetConfiguration['arguments'])) {
     			foreach($this->widgetConfiguration['arguments'] as $argkey=>$value) {
     				$this->view->assign($argkey,$value);
     			}
     		}
-    		
+
     		return $this->view->render();
 	    	
     	} catch (Exception $e) {
@@ -80,6 +88,14 @@ class Tx_T3orgFeedparser_ViewHelpers_Widget_Controller_Remote_XmlController exte
     		$this->view->assign('error', $e->getMessage());
     	}
 	}
+
+    /**
+     * set individual cache times for each request on TYPO3 response
+     */
+    protected function setCachingHeaders() {
+        $cacheTime = $this->widgetConfiguration['cacheTime'];
+        $GLOBALS['TSFE']->set_cache_timeout_default($cacheTime);
+    }
 
 }
 

@@ -13,7 +13,7 @@ Tx_Extbase_Utility_Extension::registerPlugin(
     'Json-Feed renderer'    // A title shown in the backend dropdown field
 );
 
-t3lib_extMgm::addStaticFile($_EXTKEY, 'Configuration/TypoScript', 'View references from t3blog.com');
+t3lib_extMgm::addStaticFile($_EXTKEY, 'Configuration/TypoScript', 'fluidAjaxWidgetCachedResponse');
 
 $extensionName = strtolower(t3lib_div::underscoredToUpperCamelCase($_EXTKEY));
 
