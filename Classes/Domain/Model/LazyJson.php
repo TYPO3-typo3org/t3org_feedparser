@@ -20,14 +20,15 @@ class Tx_T3orgFeedparser_Domain_Model_LazyJson implements IteratorAggregate, Tx_
 	protected $cacheTime = null;
 	
 	/**
-	 * @var array
+	 * @var array|null
 	 */
 	protected $data = null;
 	
 	/**
 	 * set the feedUrl
 	 * @param string $url
-	 */
+     * @return Tx_T3orgFeedparser_Domain_Model_LazyJson
+     */
 	public function setFeedUrl($url) {
 		$this->feedUrl = $url;
 		return $this;
@@ -37,6 +38,7 @@ class Tx_T3orgFeedparser_Domain_Model_LazyJson implements IteratorAggregate, Tx_
 	 * set the number of seconds this feeds result might be cached
 	 * 
 	 * @param integer $seconds
+     * @return Tx_T3orgFeedparser_Domain_Model_LazyJson
      */
 	public function setCacheTime($seconds) {
 		$this->cacheTime = $seconds;
@@ -46,7 +48,7 @@ class Tx_T3orgFeedparser_Domain_Model_LazyJson implements IteratorAggregate, Tx_
 	/**
 	 * __call()
 	 * @param string $methodName
-	 * @param arguments $arguments
+	 * @param array $arguments
 	 */
 	public function __call($methodName, $arguments) {
 		if(is_null($this->data)) {

@@ -131,7 +131,8 @@ class Tx_T3orgFeedparser_Fluid_AjaxWidgetContextHolder extends Tx_Fluid_Core_Wid
 	/**
 	 * read a value from the registry
 	 * @param string $key
-	 */
+     * @return mixed
+     */
 	protected function readRegistry($key) {
 		return $this->getRegistry()->get(
 			$this->widgetContextsStorageKey,
@@ -143,7 +144,8 @@ class Tx_T3orgFeedparser_Fluid_AjaxWidgetContextHolder extends Tx_Fluid_Core_Wid
 	 * write a value to the registry
 	 * @param string $key
 	 * @param mixed $content
-	 */
+     * @return string
+     */
 	protected function writeRegistry($key, $content) {
 		$this->getRegistry()->set(
 			$this->widgetContextsStorageKey,
@@ -152,15 +154,15 @@ class Tx_T3orgFeedparser_Fluid_AjaxWidgetContextHolder extends Tx_Fluid_Core_Wid
 		);
 		return $key;
 	}
-	
-	/**
-	 * create a hash from a given object
-	 * 
-	 * (no necessarity to be a secure hash - any semi-random value would do)
-	 * 
-	 * @param array $array
-	 * @return string
-	 */
+
+    /**
+     * create a hash from a given object
+     *
+     * (no necessarity to be a secure hash - any semi-random value would do)
+     *
+     * @param Tx_Fluid_Core_Widget_WidgetContext $widgetContext
+     * @return string
+     */
 	protected function getHashFromWidgetContext(Tx_Fluid_Core_Widget_WidgetContext $widgetContext) {
 		return md5(serialize($widgetContext));
 	}

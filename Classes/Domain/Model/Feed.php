@@ -88,7 +88,8 @@ class Tx_T3orgFeedparser_Domain_Model_Feed extends SimpleXMLElement {
 	 * 
 	 * @param string $functionName function name
 	 * @param array $arguments arguments
-	 */
+     * @return SimpleXMLElement
+     */
 	public function __call($functionName, $arguments) {
 		if (strncmp($functionName, 'get', 3) === 0) {
 			$propertyName = t3lib_div::underscoredToLowerCamelCase(substr($functionName, 3));
@@ -108,7 +109,8 @@ class Tx_T3orgFeedparser_Domain_Model_Feed extends SimpleXMLElement {
 	/**
 	 * override the default getName() method to
 	 * be able to get a tag called <name>
-	 */
+     * @return string
+     */
 	public function getName() {
 		return $this->name;
 	}

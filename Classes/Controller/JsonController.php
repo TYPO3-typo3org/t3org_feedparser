@@ -27,7 +27,6 @@
  * The main controller to show items from a json stream
  *
  * @author Christian Zenker <christian.zenker@599media.de>
- * @version $Id:$
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License, version 2
  */
 class Tx_T3orgFeedparser_Controller_JsonController extends Tx_T3orgFeedparser_Controller_AbstractController {

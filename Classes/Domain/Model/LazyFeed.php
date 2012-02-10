@@ -27,7 +27,8 @@ class Tx_T3orgFeedparser_Domain_Model_LazyFeed implements Tx_T3orgFeedparser_Dom
 	/**
 	 * set the feedUrl
 	 * @param string $url
-	 */
+     * @return Tx_T3orgFeedparser_Domain_Model_LazyFeed
+     */
 	public function setFeedUrl($url) {
 		$this->feedUrl = $url;
 		return $this;
@@ -37,7 +38,8 @@ class Tx_T3orgFeedparser_Domain_Model_LazyFeed implements Tx_T3orgFeedparser_Dom
 	 * set the number of seconds this feeds result might be cached
 	 * 
 	 * @param integer $seconds
-	 */
+     * @return Tx_T3orgFeedparser_Domain_Model_LazyFeed
+     */
 	public function setCacheTime($seconds) {
 		$this->cacheTime = $seconds;
 		return $this;
@@ -46,8 +48,9 @@ class Tx_T3orgFeedparser_Domain_Model_LazyFeed implements Tx_T3orgFeedparser_Dom
 	/**
 	 * __call()
 	 * @param string $methodName
-	 * @param arguments $arguments
-	 */
+	 * @param array $arguments
+     * @return mixed
+     */
 	public function __call($methodName, $arguments) {
 		if(is_null($this->object)) {
 			$this->initObject();
