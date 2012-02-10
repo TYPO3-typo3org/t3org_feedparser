@@ -7,7 +7,7 @@
  * 
  * @author Christian Zenker <christian.zenker@599media.de>
  */
-class Tx_T3orgFeedparser_Domain_Model_LazyFeed {
+class Tx_T3orgFeedparser_Domain_Model_LazyFeed implements Tx_T3orgFeedparser_Domain_Model_FeedInterface {
 
 	/**
 	 * @var string the feedUrl

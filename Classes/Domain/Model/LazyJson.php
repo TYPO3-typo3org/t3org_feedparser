@@ -7,7 +7,7 @@
  * 
  * @author Christian Zenker <christian.zenker@599media.de>
  */
-class Tx_T3orgFeedparser_Domain_Model_LazyJson implements IteratorAggregate {
+class Tx_T3orgFeedparser_Domain_Model_LazyJson implements IteratorAggregate, Tx_T3orgFeedparser_Domain_Model_FeedInterface {
 
 	/**
 	 * @var string the feedUrl
@@ -37,7 +37,7 @@ class Tx_T3orgFeedparser_Domain_Model_LazyJson implements IteratorAggregate {
 	 * set the number of seconds this feeds result might be cached
 	 * 
 	 * @param integer $seconds
-	 */
+     */
 	public function setCacheTime($seconds) {
 		$this->cacheTime = $seconds;
 		return $this;
