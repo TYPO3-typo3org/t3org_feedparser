@@ -30,57 +30,17 @@
  * @version $Id:$
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License, version 2
  */
-class Tx_T3orgFeedparser_Controller_JsonController extends Tx_Extbase_MVC_Controller_ActionController {
+class Tx_T3orgFeedparser_Controller_JsonController extends Tx_T3orgFeedparser_Controller_AbstractController {
+
 
     /**
-     * Show teasers from a json feed
+     * get the corresponding feed object
      *
-     * assigned to template:
-     * =====================
-     *  * feed - Tx_T3orgT3blogrefviewer_Domain_Model_LazyJson - a representation of the feed
-     *  * feedUrl - the feedUrl that should be fetched
-     *  * error - contains an error message if something went wrong when trying to create the feed object
-     *  
-     * @return string
+     * @return Tx_T3orgFeedparser_Domain_Model_FeedInterface
      */
-    public function teaserAction() {
-    	try {
-	    	if(!$this->settings['feedUrl']) {
-	    		throw new InvalidArgumentException('feedUrl is not configured.');
-	    	}
-	    	
-	    	$feedUrl = $this->settings['feedUrl'];
-	    	
-	    	$cacheTime = intval($this->settings['cacheTime']);
-	    	
-	    	if(!empty($this->settings['templatePathAndName'])) {
-	    		$this->view->setTemplatePathAndFilename(t3lib_div::getFileAbsFileName($this->settings['templatePathAndName']));
-	    	}
-    		
-	    	/**
-	    	 * some lazy fetching feed
-	    	 * 
-	    	 * it just does its time-consuming work when it is actually needed
-	    	 * 
-	    	 * @var Tx_T3orgFeedparser_Domain_Model_LazyJson
-	    	 */
-	    	$feed = new Tx_T3orgFeedparser_Domain_Model_LazyJson();
-	    	$feed->setFeedUrl($feedUrl);
-	    	$feed->setCacheTime($cacheTime);
-	    	
-    		$this->view->assign('feed', $feed);
-	    	$this->view->assign('feedUrl', $feedUrl);
-	    	$this->view->assign('cacheTime', $cacheTime);
-	    	
-	    	// call explicitly to fetch exceptions thrown by Domain_Model_LazyJson
-	    	return $this->view->render();
-    		
-    	} catch (Exception $e) {
-    		t3lib_div::sysLog($e->getMessage(), 't3org_feedparser', LOG_ERR);
-    		$this->view->assign('error', $e->getMessage());
-    	}
+    protected function getFeedObject() {
+        return new Tx_T3orgFeedparser_Domain_Model_LazyJson();
     }
-	
 }
 
 ?>
