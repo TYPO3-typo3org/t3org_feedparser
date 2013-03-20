@@ -1,0 +1,30 @@
+<f:be.container>
+	<h1>Generate a Bearer Token for api.twitter.com</h1>
+	<p>
+		typo3.org needs a so-called "bearer token" from twitter in order to gain access to its API.
+		You can generate it here.
+	</p>
+	<p>
+		First you need to register an application. The article on <a href="https://dev.twitter.com/docs/auth/tokens-devtwittercom" target="blank">dev.twitter.com/docs/auth/tokens-devtwittercom</a>
+		describes how it is done. You can then enter in the Consumer Key and Secret here and you will get the bearer token.
+	</p>
+
+	<form method="POST" action="{f:uri.action(action:'index')}">
+		<label for="key">Consumer Key</label>
+		<input type="text" id="key" name="key" /><br />
+		<label for="secret">Consumer Secret</label>
+		<input type="text" id="secret" name="secret" /><br />
+		<button type="submit">Generate</button>
+	</form>
+
+	<f:if condition="{bearerTokenError}">
+		<p>Oops. Something went wrong when trying to get your bearer token. Are you sure your credentials are fine?</p>
+		<p>Here is the error message:<br />{bearerTokenError}</p>
+	</f:if>
+
+	<f:if condition="{bearerToken}">
+		<h2>The bearer token is</h2>
+		<pre>{bearerToken}</pre>
+	</f:if>
+
+</f:be.container>

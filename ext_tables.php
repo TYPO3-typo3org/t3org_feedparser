@@ -25,4 +25,21 @@ $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_excludelist'][$extensio
 $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist'][$extensionName . '_pi2'] = 'pi_flexform';
 t3lib_extMgm::addPiFlexFormValue($extensionName . '_pi2', 'FILE:EXT:' . $_EXTKEY . '/Configuration/FlexForms/flexform_list.xml');
 
+
+if (TYPO3_MODE === 'BE') {
+    Tx_Extbase_Utility_Extension::registerModule(
+        $_EXTKEY,
+        'tools',          // Main area
+        'mod1',         // Name of the module
+        '',             // Position of the module
+        array(          // Allowed controller action combinations
+            'OauthBackendAdmin' => 'index',
+        ),
+        array(          // Additional configuration
+            'access'    => 'admin',
+            'icon'      => 'EXT:'. $_EXTKEY . '/ext_icon.gif',
+            'labels'    => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang_mod.xml',
+        )
+    );
+}
 ?>
