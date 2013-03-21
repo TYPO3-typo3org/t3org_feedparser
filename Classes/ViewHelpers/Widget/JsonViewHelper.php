@@ -42,9 +42,10 @@ class Tx_T3orgFeedparser_ViewHelpers_Widget_JsonViewHelper extends Tx_Fluid_Core
 	 * @param string $templatePathAndName
 	 * @param string $feedUrl
 	 * @param integer $cacheTime
+	 * @param string $oAuthBearerToken
 	 * @return string
 	 */
-	public function render($templatePathAndName = '', $feedUrl = '', $cacheTime = 0) {
+	public function render($templatePathAndName = '', $feedUrl = '', $cacheTime = 0, $oAuthBearerToken = '') {
 		return $this->initiateSubRequest();
 	}
 }

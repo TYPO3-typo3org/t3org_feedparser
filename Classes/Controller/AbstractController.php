@@ -46,11 +46,6 @@ abstract class Tx_T3orgFeedparser_Controller_AbstractController extends Tx_Extba
 
             $feed = $this->getFeedObject();
 		    $this->configureFeedObject($feed);
-
-	    	
-    		$this->view->assign('feed', $feed);
-	    	$this->view->assign('feedUrl', $feedUrl);
-	    	$this->view->assign('cacheTime', $cacheTime);
 	    	
 	    	// call explicitly to fetch exceptions thrown by Domain_Model_LazyFeed
 	    	return $this->view->render();
@@ -77,10 +72,17 @@ abstract class Tx_T3orgFeedparser_Controller_AbstractController extends Tx_Extba
 		$feed->setFeedUrl($feedUrl);
 		$feed->setCacheTime($cacheTime);
 
+		$this->view->assign('feed', $feed);
+		$this->view->assign('feedUrl', $feedUrl);
+		$this->view->assign('cacheTime', $cacheTime);
+
 		// OAuth support
 		$host = parse_url($feedUrl, PHP_URL_HOST);
 		if($host && $bearerToken = $this->getOAuthBearerTokenByHost($host)) {
 			$feed->addFeedHeader('Authorization: Bearer ' . $bearerToken);
+			$this->view->assign('oAuthBearerToken', $bearerToken);
+		} else {
+			$this->view->assign('oAuthBearerToken', '');
 		}
 	}
 

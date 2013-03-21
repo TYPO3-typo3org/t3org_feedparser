@@ -48,9 +48,10 @@ class Tx_T3orgFeedparser_ViewHelpers_Widget_Remote_JsonViewHelper extends Tx_Flu
 	 * @param string $feedUrl
 	 * @param integer $cacheTime
 	 * @param array $arguments
+	 * @param string $oAuthBearerToken
 	 * @return string
 	 */
-	public function render($templatePathAndName = '', $feedUrl = '', $cacheTime = 0, $arguments = array()) {
+	public function render($templatePathAndName = '', $feedUrl = '', $cacheTime = 0, $arguments = array(), $oAuthBearerToken = '') {
 		return $this->initiateSubRequest();
 	}
 }

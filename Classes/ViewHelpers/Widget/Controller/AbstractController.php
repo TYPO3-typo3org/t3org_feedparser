@@ -54,6 +54,9 @@ abstract class Tx_T3orgFeedparser_ViewHelpers_Widget_Controller_AbstractControll
             $feed = $this->getFeedObject();
             $feed->setFeedUrl($feedUrl);
             $feed->setCacheTime($cacheTime);
+	        if($this->widgetConfiguration['oAuthBearerToken']) {
+		        $feed->addFeedHeader('Authorization: Bearer ' . $this->widgetConfiguration['oAuthBearerToken']);
+	        }
 
             $this->view->assign('feed', $feed);
 
