@@ -39,20 +39,14 @@ abstract class Tx_T3orgFeedparser_Controller_AbstractController extends Tx_Extba
      */
     public function teaserAction() {
     	try {
-	    	if(!$this->settings['feedUrl']) {
-	    		throw new InvalidArgumentException('feedUrl is not configured.');
-	    	}
-
-	    	$feedUrl = $this->settings['feedUrl'];
-	    	$cacheTime = intval($this->settings['cacheTime']);
 	    	
 	    	if(!empty($this->settings['templatePathAndName'])) {
 	    		$this->view->setTemplatePathAndFilename(t3lib_div::getFileAbsFileName($this->settings['templatePathAndName']));
 	    	}
 
             $feed = $this->getFeedObject();
-	    	$feed->setFeedUrl($feedUrl);
-	    	$feed->setCacheTime($cacheTime);
+		    $this->configureFeedObject($feed);
+
 	    	
     		$this->view->assign('feed', $feed);
 	    	$this->view->assign('feedUrl', $feedUrl);
@@ -66,6 +60,43 @@ abstract class Tx_T3orgFeedparser_Controller_AbstractController extends Tx_Extba
     		$this->view->assign('error', $e->getMessage());
     	}
     }
+
+	/**
+	 * @param $feed Tx_T3orgFeedparser_Domain_Model_FeedInterface
+	 * @throws InvalidArgumentException
+	 * @return void
+	 */
+	protected function configureFeedObject($feed) {
+		if(!$this->settings['feedUrl']) {
+			throw new InvalidArgumentException('feedUrl is not configured.');
+		}
+
+		$feedUrl = $this->settings['feedUrl'];
+		$cacheTime = intval($this->settings['cacheTime']);
+
+		$feed->setFeedUrl($feedUrl);
+		$feed->setCacheTime($cacheTime);
+
+		// OAuth support
+		$host = parse_url($feedUrl, PHP_URL_HOST);
+		if($host && $bearerToken = $this->getOAuthBearerTokenByHost($host)) {
+			$feed->addFeedHeader('Authorization: Bearer ' . $bearerToken);
+		}
+	}
+
+	/**
+	 * @param $host
+	 * @return string|null
+	 */
+	protected function getOAuthBearerTokenByHost($host) {
+		if(array_key_exists('oAuthBearerTokens', $this->settings) && is_array($this->settings['oAuthBearerTokens'])) {
+			foreach($this->settings['oAuthBearerTokens'] as $tokenConfig) {
+				if($tokenConfig['uri'] == $host) {
+					return $tokenConfig['token'];
+				}
+			}
+		}
+	}
 
     /**
      * get the corresponding feed object

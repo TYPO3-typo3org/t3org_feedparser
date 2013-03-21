@@ -15,6 +15,15 @@ interface Tx_T3orgFeedparser_Domain_Model_FeedInterface {
      */
     public function setFeedUrl($url);
 
+	/**
+	 * add a header line
+	 *
+	 * @abstract
+	 * @param string $header
+	 * @return null
+	 */
+	public function addFeedHeader($header);
+
     /**
      * set the number of seconds the response of this feed might be cached
      *

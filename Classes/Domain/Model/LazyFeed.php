@@ -13,6 +13,11 @@ class Tx_T3orgFeedparser_Domain_Model_LazyFeed implements Tx_T3orgFeedparser_Dom
 	 * @var string the feedUrl
 	 */
 	protected $feedUrl = null;
+
+	/**
+	 * @var array header to send with the request
+	 */
+	protected $feedHeaders = array();
 	
 	/**
 	 * @var the number of seconds this might be cached internally
@@ -23,7 +28,11 @@ class Tx_T3orgFeedparser_Domain_Model_LazyFeed implements Tx_T3orgFeedparser_Dom
 	 * @var Tx_T3orgFeedparser_Domain_Model_Feed
 	 */
 	protected $object = null;
-	
+
+	public function __construct() {
+		$this->addFeedHeader('User-Agent: typo3.org/FeedParser');
+	}
+
 	/**
 	 * set the feedUrl
 	 * @param string $url
@@ -149,6 +158,18 @@ class Tx_T3orgFeedparser_Domain_Model_LazyFeed implements Tx_T3orgFeedparser_Dom
 	        $this->cacheTime
 	    );
 	}
-	
+
+	/**
+	 * add a header line
+	 *
+	 * @param string $header
+	 * @return null
+	 */
+	public function addFeedHeader($header)
+	{
+		$this->feedHeaders[] = $header;
+	}
+
+
 }
 ?>

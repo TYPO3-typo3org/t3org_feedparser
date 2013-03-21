@@ -23,7 +23,16 @@ class Tx_T3orgFeedparser_Domain_Model_LazyJson implements IteratorAggregate, Tx_
 	 * @var array|null
 	 */
 	protected $data = null;
-	
+
+	/**
+	 * @var array header to send with the request
+	 */
+	protected $feedHeaders = array();
+
+	public function __construct() {
+		$this->addFeedHeader('User-Agent: typo3.org/FeedParser');
+	}
+
 	/**
 	 * set the feedUrl
 	 * @param string $url
@@ -139,13 +148,14 @@ class Tx_T3orgFeedparser_Domain_Model_LazyJson implements IteratorAggregate, Tx_
 	 * @return string
 	 */
 	protected function fetchFromUrl() {
+
 		return t3lib_div::getUrl(
     		$this->feedUrl,
     		0,
     		/* forge.typo3.org will just refuse connection (403) if
     		 * the user agent is empty
     		 */ 
-    		array('User-Agent: typo3.org/FeedParser')
+    		$this->feedHeaders
     	);
 	}
 	
@@ -181,6 +191,19 @@ class Tx_T3orgFeedparser_Domain_Model_LazyJson implements IteratorAggregate, Tx_
 	        $cacheHash,
 	        $this->cacheTime
 	    );
+	}
+
+
+
+	/**
+	 * add a header line
+	 *
+	 * @param string $header
+	 * @return null
+	 */
+	public function addFeedHeader($header)
+	{
+		$this->feedHeaders[] = $header;
 	}
 	
 }
