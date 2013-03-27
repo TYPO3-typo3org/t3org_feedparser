@@ -32,6 +32,7 @@ abstract class Tx_T3orgFeedparser_ViewHelpers_Widget_Controller_Remote_AbstractC
      * @return void
      */
     public function indexAction() {
+		$this->view->assign('settings', $this->widgetConfiguration);
     }
 
     /**
